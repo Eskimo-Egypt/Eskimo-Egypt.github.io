@@ -103,6 +103,17 @@ const products = categories.flatMap((c) =>
   })),
 );
 let cart = JSON.parse(localStorage.getItem("eskimo-cart") || "[]");
+
+const cartExpiresAfter = 6 * 60 * 60 * 1000;
+const cartLastUpdate = Number(
+  localStorage.getItem("eskimo-cart-last-update") || 0,
+);
+
+if (cart.length && Date.now() - cartLastUpdate > cartExpiresAfter) {
+  cart = [];
+  localStorage.removeItem("eskimo-cart");
+  localStorage.removeItem("eskimo-cart-last-update");
+}
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 function showToast(message) {
@@ -154,6 +165,8 @@ function clearCart() {
 }
 function save() {
   localStorage.setItem("eskimo-cart", JSON.stringify(cart));
+  localStorage.setItem("eskimo-cart-last-update", Date.now());
+
   drawCart();
   document.dispatchEvent(new Event("eskimo-cart-change"));
 }
@@ -268,6 +281,9 @@ function checkout() {
       ),
     "_blank",
   );
+  cart = [];
+save();
+closeCart();
 }
 function openCart() {
   const panel = $(".cart-layer");

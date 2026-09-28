@@ -432,7 +432,7 @@ a {
 .cart-layer {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 9999;
   pointer-events: none;
 }
 .cart-layer.open {
@@ -465,11 +465,19 @@ a {
   transform: none;
 }
 .close {
-  margin-left: auto;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  align-self: flex-end;
+  width: 38px;
+  height: 38px;
+  margin: 0 0 5px auto;
   border: 0;
-  background: none;
-  color: var(--deep);
-  font-size: 2rem;
+  border-radius: 50%;
+  background: #063b31;
+  color: white;
+  font-size: 1.6rem;
+  line-height: 1;
   cursor: pointer;
 }
 .cart-panel h2 {
