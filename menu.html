@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
   </head>
   <body>
     <header class="nav">
@@ -27,6 +27,16 @@
           Cart <b data-count>0</b></button
         ><a class="top-order" href="#menu-start">Order now</a>
       </div>
+      <button
+        class="menu-toggle"
+        onclick="toggleMobileMenu()"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
     <section class="page-head">
       <p class="eyebrow">CHOOSE YOUR MOOD</p>
@@ -59,9 +69,20 @@
           <div class="total-row">
             <span>Total</span><strong data-total>EGP 0</strong>
           </div>
+          <div class="instapay-box">
+            <p><strong>Prefer to pay via InstaPay?</strong></p>
+
+            <img src="assets/instapay-qr.png" alt="InstaPay QR code" />
+
+            <small>
+              Scan the QR code to pay. After payment, please attach a screenshot
+              of the payment confirmation with your WhatsApp order.
+            </small>
+          </div>
           <button class="checkout" onclick="checkout()">
             Place order on WhatsApp
           </button>
+          <button class="clear-cart" onclick="clearCart()">Clear basket</button>
           <p class="cart-note">
             Your complete order and total will be ready in the WhatsApp message.
           </p>
@@ -106,7 +127,23 @@
               (p) => p.category === c && p.name.toLowerCase().includes(term),
             );
             visible += list.length;
-            return `<section class="category-section" id="${id(c)}" ${list.length ? "" : 'style="display:none"'}><div class="section-title"><h2>${c}</h2><span>${list.length} ITEMS</span></div><div class="product-list">${list.map((p) => `<article class="product" data-product="${p.id}"><div class="product-copy"><span class="tag">${p.category.toUpperCase()}</span><h3>${p.name}</h3><strong class="price">EGP ${p.price}</strong></div><div class="product-photo"><img src="assets/clean-${p.image}.webp" alt="${p.name}"><span class="item-qty"></span><button class="add" onclick="add('${p.id}')" aria-label="Add ${p.name}">+</button></div></article>`).join("")}</div></section>`;
+            return `<section class="category-section" id="${id(c)}" ${list.length ? "" : 'style="display:none"'}><div class="section-title"><h2>${c}</h2><span>${list.length} ITEMS</span></div><div class="product-list">${list
+              .map(
+                (
+                  p,
+                ) => `<article class="product" data-product="${p.id}"><div class="product-copy"><span class="tag">${p.category.toUpperCase()}</span><h3>${p.name}</h3><strong class="price">EGP ${p.price}</strong></div><div class="product-photo"><img src="assets/clean-${p.image}.webp" alt="${p.name}">
+<div class="product-qty">
+  <button class="first-add" onclick="changeProductQuantity('${p.id}',1)">+</button>
+
+  <div class="quantity-controls">
+    <button onclick="changeProductQuantity('${p.id}',-1)">−</button>
+    <b class="item-qty">0</b>
+    <button onclick="changeProductQuantity('${p.id}',1)">+</button>
+  </div>
+</div>
+</div></article>`,
+              )
+              .join("")}</div></section>`;
           })
           .join("");
         document.querySelector("#no-results").style.display = visible
@@ -120,10 +157,12 @@
       );
       function syncProductQuantities() {
         document.querySelectorAll("[data-product]").forEach((card) => {
-          const item = cart.find((x) => x.id === card.dataset.product),
-            badge = card.querySelector(".item-qty");
-          badge.textContent = item && item.qty > 0 ? "×" + item.qty : "";
-          badge.classList.toggle("show", !!item);
+          const item = cart.find((x) => x.id === card.dataset.product);
+          const badge = card.querySelector(".item-qty");
+          const counter = card.querySelector(".product-qty");
+
+          badge.textContent = item ? item.qty : "0";
+          counter.classList.toggle("active", !!item);
         });
       }
       function observe() {

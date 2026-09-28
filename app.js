@@ -133,6 +133,25 @@ function alter(id, amount) {
   if (item.qty < 1) cart = cart.filter((x) => x.id !== id);
   save();
 }
+function changeProductQuantity(id, amount) {
+  const item = cart.find((x) => x.id === id);
+
+  if (amount > 0) {
+    add(id);
+  } else if (item) {
+    alter(id, amount);
+  }
+}
+function clearCart() {
+  if (!cart.length) {
+    showToast("Your cart is already empty.");
+    return;
+  }
+
+  cart = [];
+  save();
+  showToast("Your cart has been cleared.");
+}
 function save() {
   localStorage.setItem("eskimo-cart", JSON.stringify(cart));
   drawCart();
@@ -154,6 +173,7 @@ function drawCart() {
     : '<p class="cart-empty">Your cart is waiting for a little Eskimo magic.</p>';
   $("[data-total]").textContent = "EGP " + total;
 }
+
 function checkout() {
   if (!cart.length) {
     showToast("Your cart is still empty.");
@@ -164,16 +184,25 @@ function checkout() {
     .join("\n");
   const total = cart.reduce((s, x) => s + x.qty * x.price, 0);
   window.open(
-    "https://wa.me/201033820470?text=" +
+    "https://wa.me/201015078571?text=" +
       encodeURIComponent(
         "Hello Eskimo! I would like to order:\n" +
           lines +
           "\n\nTotal: EGP " +
           total +
-          
-          "\n Please feel free to add any special requests or notes:" +
+          "\n====================================="+
           " \n Note => This Total Without Shipping Cost" +
           "\n Note => for instapay 01143572007  please send your transaction photo" +
+          "\n * Please feel free to add any special requests or notes:" +
+
+          " \n * If we’re taking a little longer than usual to reply, we’re sorry for the wait."+
+
+"\n Please forward these message to our second WhatsApp number: 01033820470 "+
+
+
+"\n We’ll get back to you as soon as possible."+
+"\nThank you for choosing Eskimo! ❄️"+
+      
           "\nName : ",
       ),
     "_blank",
@@ -187,6 +216,43 @@ function closeCart() {
   const panel = $(".cart-layer");
   if (panel) panel.classList.remove("open");
 }
+function toggleMobileMenu() {
+  const links = $(".nav-links");
+  const button = $(".menu-toggle");
+
+  if (!links || !button) return;
+
+  const isOpen = links.classList.toggle("open");
+
+  button.classList.toggle("open", isOpen);
+  button.setAttribute("aria-expanded", isOpen);
+}
+document.addEventListener("click", (e) => {
+  const cartLayer = $(".cart-layer");
+  const cartPanel = $(".cart-panel");
+  const cartButton = e.target.closest(".cart-trigger");
+
+  if (
+    cartLayer.classList.contains("open") &&
+    !cartPanel.contains(e.target) &&
+    !cartButton
+  ) {
+    closeCart();
+  }
+
+  const navLinks = $(".nav-links");
+  const menuButton = $(".menu-toggle");
+
+  if (
+    navLinks.classList.contains("open") &&
+    !navLinks.contains(e.target) &&
+    !menuButton.contains(e.target)
+  ) {
+    navLinks.classList.remove("open");
+    menuButton.classList.remove("open");
+    menuButton.setAttribute("aria-expanded", "false");
+  }
+});
 function addFooterSocials() {
   const footer = $(".footer");
   if (footer && !footer.querySelector(".footer-socials"))
@@ -200,5 +266,8 @@ window.alter = alter;
 window.checkout = checkout;
 window.openCart = openCart;
 window.closeCart = closeCart;
+window.toggleMobileMenu = toggleMobileMenu;
+window.clearCart = clearCart;
+window.changeProductQuantity = changeProductQuantity;
 drawCart();
 addFooterSocials();

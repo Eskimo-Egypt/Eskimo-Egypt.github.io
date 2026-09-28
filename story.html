@@ -27,6 +27,16 @@
   <button class="cart-trigger" onclick="openCart()">Cart <b data-count>0</b></button>
   <a class="top-order" href="menu.html">Order now</a>
 </div>
+<button
+  class="menu-toggle"
+  onclick="toggleMobileMenu()"
+  aria-label="Open menu"
+  aria-expanded="false"
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
     </header>
     <main class="story-grid">
       <section class="story-copy">
@@ -57,10 +67,22 @@
         <span>Total</span>
         <strong data-total>EGP 0</strong>
       </div>
+                <div class="instapay-box">
+  <p><strong>Prefer to pay via InstaPay?</strong></p>
+
+  <img src="assets/instapay-qr.png" alt="InstaPay QR code">
+
+  <small>
+    Scan the QR code to pay. After payment, please attach a screenshot of the payment confirmation with your WhatsApp order.
+  </small>
+</div>
 
       <button class="checkout" onclick="checkout()">
         Place order on WhatsApp
       </button>
+      <button class="clear-cart" onclick="clearCart()">
+  Clear basket
+</button>
 
       <p class="cart-note">
         Your complete order and total will be ready in the WhatsApp message.
