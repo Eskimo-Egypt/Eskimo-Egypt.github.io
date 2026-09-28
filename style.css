@@ -1,0 +1,724 @@
+:root {
+  --forest: #0a4334;
+  --deep: #052f25;
+  --paper: #fffdf8;
+  --cream: #f7f3eb;
+  --gold: #e2bd68;
+  --red: #c91949;
+  --mint: #46b559;
+  --line: #ded8cd;
+  --muted: #648177;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 0 0, #fff 0, transparent 27%), var(--cream);
+  color: #102f27;
+  font-family: Manrope, Arial, sans-serif;
+   padding-top: 5.5rem;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.nav {
+  height: 88px;
+  padding: 0 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--deep);
+  color: #fff;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.logo {
+  font-size: 1.22rem;
+  letter-spacing: 2.3px;
+  font-weight: 800;
+  line-height: 0.82;
+}
+.logo i {
+  color: var(--gold);
+  font-style: normal;
+  font-size: 1.875rem;
+  margin-right: 2px;
+}
+.logo small {
+  display: block;
+  margin: 7px 0 0 24px;
+  font-size: 0.46rem;
+  letter-spacing: 1.65px;
+  opacity: 0.82;
+}
+.nav-links {
+  display: flex;
+  gap: 30px;
+  font-size: .875rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+.nav-links a {
+  opacity: 0.65;
+  padding: 9px 0;
+}
+.nav-links a.active,
+.nav-links a:hover {
+  opacity: 1;
+  color: var(--gold);
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.cart-trigger,
+.top-order {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: 800 .875rem Manrope;
+  letter-spacing: 0.55px;
+  cursor: pointer;
+  
+}
+.cart-trigger b {
+  display: inline-grid;
+  place-items: center;
+  background: var(--gold);
+  color: var(--deep);
+  border-radius: 999px;
+  width: 23px;
+  height: 23px;
+  margin-left: 6px;
+}
+.top-order,
+.button {
+  border-radius: 999px;
+}
+.top-order {
+  background: var(--gold);
+  color: var(--deep);
+  padding: 13px 19px;
+  text-transform: uppercase;
+}
+.home-hero {
+  min-height: calc(100vh - 88px);
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-cafe {
+  background:
+    linear-gradient(90deg, #052f25f5 0%, #052f25c4 38%, #052f2514 75%),
+    url("assets/eskimoPlace.png") center/cover fixed;
+}
+.hero-copy {
+  width: min(620px, 100%);
+  padding: clamp(74px, 10vw, 150px) 8vw;
+  color: #fff;
+  position: relative;
+}
+.hero-copy:after {
+  content: "✦";
+  position: absolute;
+  left: -35px;
+  bottom: -130px;
+  font: 25rem "DM Serif Display";
+  color: #ffffff0a;
+  pointer-events: none;
+}
+.eyebrow {
+  font-size: 0.67rem;
+  font-weight: 800;
+  color: #edcb80;
+  letter-spacing: 2px;
+  margin: 0 0 18px;
+}
+.hero-copy h1,
+.page-head h1,
+.story-copy h1,
+.visit-copy h1 {
+  font: clamp(4.5rem, 7.5vw, 8.4rem)/0.8 "DM Serif Display";
+  letter-spacing: -3px;
+  margin: 0;
+}
+.hero-copy h1 em,
+.page-head h1 em,
+.story-copy h1 em,
+.visit-copy h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-copy .lead {
+  max-width: 340px;
+  color: #e0ebe5;
+  line-height: 1.9;
+  font-size: 0.92rem;
+  margin: 31px 0;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--gold);
+  color: var(--deep);
+  padding: 16px 21px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  box-shadow: 0 11px 26px #00000028;
+  
+}
+.hero-note {
+  position: absolute;
+  right: 35px;
+  bottom: 29px;
+  color: #fff;
+  font-size: 0.59rem;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  text-shadow: 0 2px 10px #001b14;
+}
+.branch-strip {
+  padding: 48px 7vw;
+  background: #e9dfcb;
+}
+.branch-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 25px;
+  max-width: 1050px;
+  margin: auto;
+}
+.branch-info h3 {
+  font: 2.5rem/0.86 "DM Serif Display";
+  margin: 0;
+}
+.branch-info p {
+  font-size: 0.8rem;
+  line-height: 1.8;
+  margin: 0;
+  color: #4d6c62;
+}
+.page-head {
+  background: var(--deep);
+  color: #fff;
+  padding: 70px 7vw;
+  position: relative;
+  overflow: hidden;
+}
+.page-head:after {
+  content: "ESKIMO";
+  position: absolute;
+  bottom: -73px;
+  right: -18px;
+  font: 13rem "DM Serif Display";
+  color: #ffffff0a;
+}
+.page-head h1,
+.page-head p {
+  position: relative;
+  z-index: 1;
+}
+.page-head p {
+  max-width: 420px;
+  color: #cfe1d7;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+.menu-top {
+  padding: 22px 7vw 0;
+  background: #fffdf8ee;
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.search {
+  width: min(430px, 100%);
+  border: 1px solid #c9c5bc;
+  background: #fff;
+  border-radius: 999px;
+  padding: 13px 18px;
+  font: 600 0.76rem Manrope;
+  outline: none;
+}
+.category-nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  margin-top: 16px;
+  scrollbar-width: none;
+}
+.category-nav a {
+  flex: none;
+  padding: 14px 14px 13px;
+  color: #6c756f;
+  font-size: 0.67rem;
+  font-weight: 800;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+.category-nav a.active {
+  color: var(--red);
+  border-color: var(--red);
+}
+.menu-body {
+  padding: 48px 7vw 90px;
+  background:
+    radial-gradient(circle at 100% 7%, #dcebdd 0, transparent 19%), var(--cream);
+}
+.category-section {
+  scroll-margin-top: 158px;
+  margin: 0 auto 78px;
+  max-width: 1150px;
+}
+.section-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 15px;
+  margin-bottom: 18px;
+}
+.section-title h2 {
+  font: 3.1rem/0.82 "DM Serif Display";
+  margin: 0;
+}
+.section-title span {
+  font-size: 0.63rem;
+  color: var(--muted);
+  font-weight: 800;
+}
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.product {
+  min-height: 188px;
+  background: var(--paper);
+  border: 1px solid #ded9cf;
+  border-radius: 22px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 190px;
+  transition: 0.2s;
+  box-shadow: 0 5px 12px #19372b08;
+}
+.product:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px #19372b17;
+}
+.product-copy {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.product-copy .tag {
+  font-size: 0.55rem;
+  color: var(--red);
+  font-weight: 800;
+  letter-spacing: 1.15px;
+}
+.product h3 {
+  font: 1.56rem/1 "DM Serif Display";
+  margin: 12px 0 auto;
+}
+.price {
+  font-size: 0.94rem;
+  color: var(--mint);
+  font-weight: 800;
+}
+.product-photo {
+  position: relative;
+  background: linear-gradient(145deg, #fafaf8, #eff3ed);
+  border-left: 1px solid #e0ddd5;
+  display: grid;
+  place-items: center;
+  padding: 7px;
+}
+.product-photo img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply;
+}
+.add {
+  position: absolute;
+  bottom: 12px;
+  left: 11px;
+  width: 37px;
+  height: 37px;
+  background: var(--mint);
+  color: #fff;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px #23762f55;
+  font-size: 1.65rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.item-qty {
+  display: none;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--deep);
+  color: #fff;
+  place-items: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+  box-shadow: 0 3px 8px #0003;
+}
+.item-qty.show {
+  display: grid;
+}
+.no-results {
+  padding: 35px;
+  color: var(--muted);
+  display: none;
+}
+.toast {
+  position: fixed;
+  z-index: 100;
+  top: 102px;
+  left: 50%;
+  transform: translate(-50%, -18px);
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 13px 18px;
+  border-radius: 999px;
+  background: var(--deep);
+  color: #fff;
+  box-shadow: 0 14px 32px #001f1850;
+  font-size: 0.74rem;
+  font-weight: 800;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.28s;
+}
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.cart-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+.cart-layer.open {
+  pointer-events: auto;
+}
+.cart-back {
+  position: absolute;
+  inset: 0;
+  background: #001f1880;
+  opacity: 0;
+  transition: 0.3s;
+}
+.cart-layer.open .cart-back {
+  opacity: 1;
+}
+.cart-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: min(425px, 100%);
+  background: #fffdf8;
+  padding: 28px;
+  transform: translateX(105%);
+  transition: 0.35s;
+  display: flex;
+  flex-direction: column;
+}
+.cart-layer.open .cart-panel {
+  transform: none;
+}
+.close {
+  margin-left: auto;
+  border: 0;
+  background: none;
+  color: var(--deep);
+  font-size: 2rem;
+  cursor: pointer;
+}
+.cart-panel h2 {
+  font: 3rem/0.9 "DM Serif Display";
+  margin: 8px 0 20px;
+}
+.cart-items {
+  overflow: auto;
+  flex: 1;
+}
+.cart-empty {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-top: 45px;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding: 13px 0;
+}
+.cart-item .mini {
+  width: 35px;
+  height: 35px;
+  background: #eef4ee;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--forest);
+}
+.cart-item b {
+  font-size: 0.81rem;
+  display: block;
+}
+.cart-item small {
+  font-size: 0.67rem;
+  color: var(--muted);
+}
+.qty {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.qty button {
+  border: 0;
+  background: #dfeee3;
+  color: var(--deep);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+.cart-total {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+.total-row strong {
+  font-size: 1.13rem;
+}
+.checkout {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 16px;
+  font: 800 0.72rem Manrope;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.cart-note {
+  text-align: center;
+  font-size: 0.63rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.story-grid,
+.visit-grid {
+  min-height: calc(100vh - 88px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.story-copy,
+.visit-copy {
+  padding: clamp(75px, 10vw, 145px) 10vw;
+  background: #efe4d0;
+}
+.story-copy p,
+.visit-copy p {
+  font-size: 0.9rem;
+  max-width: 420px;
+  line-height: 2;
+}
+.story-photo {
+  background:
+    radial-gradient(circle at 78% 20%, #e8cb87 0, transparent 13%),
+    radial-gradient(circle at 20% 75%, #bcdecd 0, transparent 19%),
+    linear-gradient(135deg, #083a2d, #0b5542);
+  position: relative;
+  overflow: hidden;
+}
+.story-photo:after {
+  content: "FROM\A ICE\A TO NICE";
+  white-space: pre;
+  position: absolute;
+  right: 11%;
+  bottom: 12%;
+  font: italic clamp(3rem, 7vw, 7rem)/0.78 "DM Serif Display";
+  color: #f1d38f;
+  opacity: 0.92;
+}
+.visit-photo {
+  background: url("assets/eskimoPlace.png") center/cover;
+}
+.info-card {
+  margin-top: 28px;
+  max-width: 390px;
+  padding: 26px;
+  background: var(--forest);
+  box-shadow: 13px 13px 0 var(--gold);
+  color: #fff;
+}
+.info-card h2 {
+  font: 2.8rem "DM Serif Display";
+  margin: 5px 0;
+}
+.info-card p {
+  font-size: 0.75rem;
+  color: #dcebe4;
+  margin: 0 0 8px;
+  line-height: 1.75;
+}
+.socials {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.socials a {
+  border: 1px solid #ffffff88;
+  border-radius: 999px;
+  padding: 8px 11px;
+  font-size: 0.63rem;
+  font-weight: 800;
+}
+.footer {
+  padding: 25px 7vw;
+  background: var(--deep);
+  color: #dbeae2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.61rem;
+  letter-spacing: 1px;
+}
+.footer-socials {
+  margin: 0;
+}
+.footer-socials a {
+  border-color: #ffffff44;
+  padding: 7px 10px;
+}
+@media (max-width: 840px) {
+   body {
+    padding-top: 74px;
+  }
+  .nav {
+    height: 74px;
+    padding: 0 20px;
+  }
+  .nav-links {
+    display: none;
+  }
+  .top-order {
+    display: none;
+  }
+  .home-hero {
+    min-height: calc(100vh - 74px);
+  }
+  .hero-cafe {
+    background-position: 60% center;
+    background-attachment: scroll;
+  }
+  .hero-copy {
+    min-height: calc(100vh - 74px);
+    padding: calc(72px + env(safe-area-inset-top)) 9vw 60px;
+    background: linear-gradient(90deg, #052f25f6, #052f258c, transparent);
+  }
+  .branch-strip {
+    padding: 35px 6vw;
+  }
+  .branch-info {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .page-head {
+    padding: 55px 7vw;
+  }
+  .menu-top {
+    padding: 16px 5vw 0;
+  }
+  .menu-body {
+    padding: 35px 5vw 60px;
+  }
+  .category-section {
+    scroll-margin-top: 140px;
+  }
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+  .product {
+    grid-template-columns: 1fr 165px;
+    min-height: 174px;
+  }
+  .story-grid,
+  .visit-grid {
+    grid-template-columns: 1fr;
+  }
+  .story-photo,
+  .visit-photo {
+    min-height: 340px;
+    order: -1;
+  }
+  .footer {
+    gap: 15px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+@media (max-width: 400px) {
+  .logo {
+    font-size: 1rem;
+  }
+  .cart-trigger {
+    font-size: 0.61rem;
+  }
+  .hero-copy h1,
+  .page-head h1 {
+    font-size: 4.45rem;
+  }
+  .product {
+    grid-template-columns: 1fr 142px;
+  }
+  .product h3 {
+    font-size: 1.4rem;
+  }
+  .section-title h2 {
+    font-size: 2.5rem;
+  }
+}

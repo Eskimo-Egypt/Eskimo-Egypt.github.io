@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Visit Us — Eskimo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+  </head>
+  <body>
+    <header class="nav">
+      <a class="logo" href="index.html"
+        ><i>❄</i> ESKIMO <small>FROM ICE TO NICE</small></a
+      >
+      <nav class="nav-links">
+        <a href="index.html">Home</a><a href="menu.html">Menu</a
+        ><a href="story.html">Our Story</a
+        ><a class="active" href="visit.html">Visit Us</a>
+      </nav>
+          <div class="nav-actions">
+  <button class="cart-trigger" onclick="openCart()">Cart <b data-count>0</b></button>
+  <a class="top-order" href="menu.html">Order now</a>
+</div>
+    </header>
+    <main class="visit-grid">
+      <section class="visit-copy">
+        <p class="eyebrow">COME SAY HELLO</p>
+        <h1>Meet us<br />over <em>ice.</em></h1>
+        <p>
+          Our first Eskimo corner is ready for your coffee runs, your catch-ups
+          and every “let's get something cold” kind of day.
+        </p>
+        <article class="info-card">
+          <p class="eyebrow">OUR FIRST BRANCH</p>
+          <h2>El Felal</h2>
+          <p>9th Street, before Arab African International Bank, El Felal.</p>
+          <p>
+            Contact us <br /><a href="tel:01033820470">010 3382 0470</a> ·
+            <a href="tel:01015078571">010 1507 8571</a>
+          </p>
+          <div class="socials">
+            <a
+              href="https://www.instagram.com/eskimo_egypt?stkn=MXBuZXh6NW51bWdiZQ=="
+              target="_blank"
+              rel="noreferrer"
+              >Instagram ↗</a
+            ><a
+              href="https://www.tiktok.com/@eskimo_egypt?_r=1&_t=ZS-9A5vuHpktfg"
+              target="_blank"
+              rel="noreferrer"
+              >TikTok ↗</a
+            ><a
+              href="https://www.facebook.com/share/1JY94aouYs/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noreferrer"
+              >Facebook ↗</a
+            >
+          </div>
+        </article>
+      </section>
+      <section class="visit-photo"></section>
+    </main>
+    <div class="cart-layer">
+  <div class="cart-back" onclick="closeCart()"></div>
+
+  <aside class="cart-panel">
+    <button class="close" onclick="closeCart()">×</button>
+
+    <p class="eyebrow">YOUR LITTLE TREAT</p>
+    <h2>Shopping bag.</h2>
+
+    <div class="cart-items" data-cart-items></div>
+
+    <div class="cart-total">
+      <div class="total-row">
+        <span>Total</span>
+        <strong data-total>EGP 0</strong>
+      </div>
+
+      <button class="checkout" onclick="checkout()">
+        Place order on WhatsApp
+      </button>
+
+      <p class="cart-note">
+        Your complete order and total will be ready in the WhatsApp message.
+      </p>
+    </div>
+  </aside>
+</div>
+    <footer class="footer">
+      <span>ESKIMO · FROM ICE TO NICE</span><span>BENHA - EL FELAL · EGYPT</span>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
