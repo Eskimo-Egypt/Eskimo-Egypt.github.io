@@ -931,3 +931,50 @@ a {
 .cart-total {
   flex: none;
 }
+.cart-item {
+  align-items: flex-start;
+}
+
+.cart-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-item-main .qty {
+  margin-left: auto;
+}
+
+.note-button {
+  margin-top: 7px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #c18d1d;
+  font: 800 0.62rem Manrope;
+  cursor: pointer;
+}
+
+.item-note {
+  display: none;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 8px;
+  padding: 9px;
+  box-sizing: border-box;
+  border: 1px solid #d8c890;
+  border-radius: 9px;
+  outline: none;
+  resize: vertical;
+  font: 0.72rem Manrope;
+  color: #063b31;
+}
+
+.item-note.show {
+  display: block;
+}

@@ -157,6 +157,33 @@ function save() {
   drawCart();
   document.dispatchEvent(new Event("eskimo-cart-change"));
 }
+function toggleNote(id) {
+  const noteBox = document.querySelector(`[data-note="${id}"]`);
+
+  if (!noteBox) return;
+
+  noteBox.classList.toggle("show");
+
+  if (noteBox.classList.contains("show")) {
+    noteBox.focus();
+  }
+}
+
+function updateNote(id, value) {
+  const item = cart.find((x) => x.id === id);
+
+  if (!item) return;
+
+  item.note = value;
+  localStorage.setItem("eskimo-cart", JSON.stringify(cart));
+}
+function closeNoteIfEmpty(id, value) {
+  const noteBox = document.querySelector(`[data-note="${id}"]`);
+
+  if (noteBox && !value.trim()) {
+    noteBox.classList.remove("show");
+  }
+}
 function drawCart() {
   const count = cart.reduce((s, x) => s + x.qty, 0),
     total = cart.reduce((s, x) => s + x.qty * x.price, 0);
@@ -167,7 +194,36 @@ function drawCart() {
     ? cart
         .map(
           (x) =>
-            `<div class="cart-item"><span class="mini">❄</span><div><b>${x.name}</b><small>EGP ${x.price}</small></div><div class="qty"><button onclick="alter('${x.id}',-1)">−</button><b>${x.qty}</b><button onclick="alter('${x.id}',1)">+</button></div></div>`,
+            `<div class="cart-item">
+  <span class="mini">❄</span>
+
+  <div class="cart-info">
+    <div class="cart-item-main">
+      <div>
+        <b>${x.name}</b>
+        <small>EGP ${x.price}</small>
+      </div>
+
+      <div class="qty">
+        <button onclick="alter('${x.id}',-1)">−</button>
+        <b>${x.qty}</b>
+        <button onclick="alter('${x.id}',1)">+</button>
+      </div>
+    </div>
+
+    <button class="note-button" onclick="toggleNote('${x.id}')">
+      + Add a note
+    </button>
+
+    <textarea
+  class="item-note ${x.note ? "show" : ""}"
+  data-note="${x.id}"
+  oninput="updateNote('${x.id}', this.value)"
+  onblur="closeNoteIfEmpty('${x.id}', this.value)"
+  placeholder="Example: feel free to add any special requests or notes..."
+>${x.note || ""}</textarea>
+  </div>
+</div>`,
         )
         .join("")
     : '<p class="cart-empty">Your cart is waiting for a little Eskimo magic.</p>';
@@ -180,7 +236,14 @@ function checkout() {
     return;
   }
   const lines = cart
-    .map((x) => "• " + x.name + " × " + x.qty + " = EGP " + x.qty * x.price)
+    .map((x) => {
+  const note =
+    x.note && x.note.trim()
+      ? "\n  Note: " + x.note.trim()
+      : "";
+
+  return "• " + x.name + " × " + x.qty + " = EGP " + x.qty * x.price + note;
+})
     .join("\n");
   const total = cart.reduce((s, x) => s + x.qty * x.price, 0);
   window.open(
@@ -193,11 +256,9 @@ function checkout() {
           "\n====================================="+
           " \n Note => This Total Without Shipping Cost" +
           "\n Note => for instapay 01143572007  please send your transaction photo" +
-          "\n * Please feel free to add any special requests or notes:" +
+          
 
-          " \n * If we’re taking a little longer than usual to reply, we’re sorry for the wait."+
-
-"\n Please forward these message to our second WhatsApp number: 01033820470 "+
+          " \n * If we’re taking a little longer than usual to reply, we’re sorry for the wait,Please forward these message to our second WhatsApp number: 01033820470 "+
 
 
 "\n We’ll get back to you as soon as possible."+
@@ -269,5 +330,8 @@ window.closeCart = closeCart;
 window.toggleMobileMenu = toggleMobileMenu;
 window.clearCart = clearCart;
 window.changeProductQuantity = changeProductQuantity;
+window.toggleNote = toggleNote;
+window.updateNote = updateNote;
+window.closeNoteIfEmpty = closeNoteIfEmpty;
 drawCart();
 addFooterSocials();
