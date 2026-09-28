@@ -253,16 +253,16 @@ function checkout() {
           lines +
           "\n\nTotal: EGP " +
           total +
-          "\n====================================="+
-          " \n Note => This Total Without Shipping Cost" +
-          "\n Note => for instapay 01143572007  please send your transaction photo" +
+          "\n==========================="+
+          "\n \n Note => This Total Without Shipping Cost" +
+          "\n Note => for instapay 01143572007 ===> 'Hassan', please send your transaction photo" +
           
 
           " \n * If we’re taking a little longer than usual to reply, we’re sorry for the wait,Please forward these message to our second WhatsApp number: 01033820470 "+
 
 
-"\n We’ll get back to you as soon as possible."+
-"\nThank you for choosing Eskimo! ❄️"+
+"\n * We’ll get back to you as soon as possible."+
+"\n *Thank you for choosing Eskimo! ❄️"+
       
           "\nName : ",
       ),
