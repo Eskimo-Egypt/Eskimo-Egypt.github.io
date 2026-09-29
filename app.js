@@ -88,7 +88,7 @@ const sourceGroups = {
   ],
   Dessert: [
     ["Waffle Stick", 90, "7945-1"],
-    ["Nutella With Fruit", 100, "7945-2"],
+    ["Nutella Fruit Salad", 100, "7945-2"],
     ["Mochi", 70, "7945-3"],
   ],
 };
@@ -131,26 +131,312 @@ function showToast(message) {
     2300,
   );
 }
-function add(id) {
-  const p = products.find((x) => x.id === id),
-    found = cart.find((x) => x.id === id);
-  found ? found.qty++ : cart.push({ ...p, qty: 1 });
-  save();
-  showToast(p.name + " added to your cart ✦");
+const milkOptions = [
+  { name: "Full-Cream milk", price: 0 },
+  { name: "Low-fat milk", price: 0 },
+  { name: "Lactose-free milk", price: 20 },
+  { name: "Oat milk", price: 25 },
+];
+
+const sugarOptions = [
+  { name: "Normal sugar", price: 0 },
+  { name: "Less sugar", price: 0 },
+  { name: "No sugar", price: 0 },
+  { name: "Diet sugar", price: 0 },
+];
+
+let customProduct = null;
+let customGroups = [];
+let customChoices = {};
+function isDessertProduct(product) {
+  const name = product.name.toLowerCase();
+
+  return (
+    product.category === "Dessert" ||
+    name === "waffle stick" ||
+    name === "nutella with fruit" ||
+    name === "mochi"
+  );
 }
+function getCustomizationGroups(product) {
+    const name = product.name.toLowerCase();
+  const isDessert = isDessertProduct(product);
+
+  const isMilkDrink =
+    product.category === "Milkshake" ||
+    product.category === "Specialty Coffee" ||
+    (product.category === "Specialty Matcha" && !name.includes("soda")) ||
+    /latte|mocha|frappe|milk juice/.test(name);
+
+  const isCoffee =
+    product.category === "Specialty Coffee" ||
+    /latte|mocha|coffee|frappe/.test(name);
+
+  const isMatcha =
+    product.category === "Specialty Matcha" &&
+    !name.includes("soda");
+
+  const groups = [];
+  if (name === "waffle stick") {
+  groups.push({
+    key: "sauce",
+    title: "Choose your sauce",
+    options: [
+      { name: "No sauce", price: 0 },
+      { name: "Chocolate sauce", price: 0 },
+      { name: "Caramel sauce", price: 0 },
+      { name: "White chocolate sauce", price: 0 },
+      { name: "Pistachio sauce", price: 0 },
+
+    ],
+  });
+}
+
+if (name === "nutella with fruit") {
+  groups.push({
+    key: "nutella",
+    title: "Nutella",
+    options: [
+      { name: "With Nutella", price: 0 },
+      { name: "Without Nutella", price: 0 },
+    ],
+  });
+}
+
+  if (isMilkDrink) {
+    groups.push({
+      key: "milk",
+      title: "Choose your milk",
+      options: milkOptions,
+    });
+  }
+
+ if (!isDessert)  {
+    groups.push({
+      key: "sugar",
+      title: "Sugar",
+      options: sugarOptions,
+    });
+  }
+
+  if (isCoffee) {
+    groups.push({
+      key: "extras",
+      title: "Extras",
+      multiple: true,
+      options: [
+        { name: "Extra espresso shot", price: 35 },
+        { name: "Vanilla ", price: 15 },
+        { name: "Chocolate ", price: 15 },
+        { name: "Caramel ", price: 15 },
+        { name: "Pistachio ", price: 25 },
+
+      ],
+    });
+  } else if (isMatcha) {
+    groups.push({
+      key: "extras",
+      title: "Extras",
+      multiple: true,
+      options: [
+        { name: "Extra matcha", price: 30 },
+       
+      ],
+    });
+  } else if (
+    product.category === "Milkshake" ||
+    product.category === "Smoothie"
+  ) {
+    groups.push({
+      key: "extras",
+      title: "Extras",
+      multiple: true,
+      options: [{ name: "matcha", price: 45 }], // Example extra for milkshakes and smoothies ana m3rfsh ehh momkn ykon feh, so I added matcha as an example
+    });
+  }
+
+  return groups;
+}
+
+function openCustomize(id) {
+  customProduct = products.find((x) => x.id === id);
+
+  if (!customProduct) return;
+
+  customGroups = getCustomizationGroups(customProduct);
+  const dessertNoteGroup = document.querySelector("#dessert-note-group");
+const dessertNote = document.querySelector("#customize-note");
+
+dessertNoteGroup.hidden = !isDessertProduct(customProduct);
+dessertNote.value = "";
+  customChoices = { extras: [] };
+
+  customGroups.forEach((group) => {
+    if (!group.multiple) {
+      customChoices[group.key] = group.options[0];
+    }
+  });
+
+  document.querySelector("#customize-title").textContent =
+    customProduct.name;
+
+  document.querySelector("#customize-layer").classList.add("open");
+
+  drawCustomizeOptions();
+}
+
+function closeCustomize() {
+  document.querySelector("#customize-layer").classList.remove("open");
+}
+
+function drawCustomizeOptions() {
+  const target = document.querySelector("#customize-options");
+
+  target.innerHTML = customGroups
+    .map(
+      (group) => `
+        <div class="custom-group">
+          <h3>${group.title}</h3>
+
+          <div class="custom-options">
+            ${group.options
+              .map((option, index) => {
+                const selected = group.multiple
+                  ? customChoices.extras.some(
+                      (x) => x.name === option.name,
+                    )
+                  : customChoices[group.key].name === option.name;
+
+                return `
+                  <button
+                    class="custom-option ${selected ? "selected" : ""}"
+                    onclick="${
+                      group.multiple
+                        ? `toggleCustomExtra(${index})`
+                        : `selectCustomOption('${group.key}', ${index})`
+                    }"
+                  >
+                    <span>${option.name}</span>
+                    <small>${
+                      option.price ? `+EGP ${option.price}` : "Free"
+                    }</small>
+                  </button>
+                `;
+              })
+              .join("")}
+          </div>
+        </div>
+      `,
+    )
+    .join("");
+
+  const extraPrice = Object.values(customChoices)
+    .flat()
+    .reduce((total, option) => total + (option.price || 0), 0);
+
+  document.querySelector("#customize-base-price").textContent =
+    "Base price: EGP " + customProduct.price;
+
+  document.querySelector("#customize-total").textContent =
+    "EGP " + (customProduct.price + extraPrice);
+}
+
+function selectCustomOption(groupKey, optionIndex) {
+  const group = customGroups.find((x) => x.key === groupKey);
+
+  customChoices[groupKey] = group.options[optionIndex];
+
+  drawCustomizeOptions();
+}
+
+function toggleCustomExtra(optionIndex) {
+  const group = customGroups.find((x) => x.key === "extras");
+
+  if (!group) return;
+
+  const option = group.options[optionIndex];
+
+  const exists = customChoices.extras.some(
+    (x) => x.name === option.name,
+  );
+
+  customChoices.extras = exists
+    ? customChoices.extras.filter((x) => x.name !== option.name)
+    : [...customChoices.extras, option];
+
+  drawCustomizeOptions();
+}
+
+function addCustomizedDrink() {
+  const customNote = document.querySelector("#customize-note").value.trim();
+  const customizations = customGroups
+    .flatMap((group) =>
+      group.multiple
+        ? customChoices.extras
+        : customChoices[group.key],
+    )
+    .filter(Boolean)
+    .map((option) => option.name);
+
+  const extraPrice = Object.values(customChoices)
+    .flat()
+    .reduce((total, option) => total + (option.price || 0), 0);
+
+  const customizationKey = customizations.join("|") + "|" + customNote;
+
+  const found = cart.find(
+    (item) =>
+      item.productId === customProduct.id &&
+      item.customizationKey === customizationKey,
+  );
+
+  if (found) {
+    found.qty++;
+  } else {
+    cart.push({
+      ...customProduct,
+      id: customProduct.id + "-" + Date.now(),
+      productId: customProduct.id,
+      price: customProduct.price + extraPrice,
+      qty: 1,
+      customizations,
+      customizationKey,
+      customNote,
+    });
+  }
+
+  save();
+  closeCustomize();
+  showToast(customProduct.name + " added to your cart ✦");
+}
+
+function add(id) {
+  openCustomize(id);
+}
+
 function alter(id, amount) {
   const item = cart.find((x) => x.id === id);
+
+  if (!item) return;
+
   item.qty += amount;
-  if (item.qty < 1) cart = cart.filter((x) => x.id !== id);
+
+  if (item.qty < 1) {
+    cart = cart.filter((x) => x.id !== id);
+  }
+
   save();
 }
+
 function changeProductQuantity(id, amount) {
-  const item = cart.find((x) => x.id === id);
+  const matchingItems = cart.filter(
+    (x) => x.productId === id || x.id === id,
+  );
 
   if (amount > 0) {
-    add(id);
-  } else if (item) {
-    alter(id, amount);
+    openCustomize(id);
+  } else if (matchingItems.length) {
+    alter(matchingItems[matchingItems.length - 1].id, -1);
   }
 }
 function clearCart() {
@@ -215,6 +501,8 @@ function drawCart() {
       <div>
         <b>${x.name}</b>
         <small>EGP ${x.price}</small>
+        ${x.customizations?.length ? `<small class="cart-customizations">${x.customizations.join(" • ")}</small>` : ""}
+        ${x.customNote ? `<small class="cart-dessert-note">Note: ${x.customNote}</small>` : ""}
       </div>
 
       <div class="qty">
@@ -248,16 +536,30 @@ function checkout() {
     showToast("Your cart is still empty.");
     return;
   }
-  const lines = cart
-    .map((x) => {
-  const note =
-    x.note && x.note.trim()
-      ? "\n  Note: " + x.note.trim()
+const lines = cart
+  .map((x) => {
+    const choices = x.customizations?.length
+      ? "\n  " + x.customizations.join(" • ")
       : "";
 
-  return "• " + x.name + " × " + x.qty + " = EGP " + x.qty * x.price + note;
-})
-    .join("\n");
+   const allNotes = [x.customNote, x.note]
+  .filter((note) => note && note.trim())
+  .join(" | ");
+
+const note = allNotes ? "\n  Note: " + allNotes : "";
+
+    return (
+      "• " +
+      x.name +
+      " × " +
+      x.qty +
+      " = EGP " +
+      x.qty * x.price +
+      choices +
+      note
+    );
+  })
+  .join("\n");
   const total = cart.reduce((s, x) => s + x.qty * x.price, 0);
   window.open(
     "https://wa.me/201015078571?text=" +
@@ -340,6 +642,11 @@ function addFooterSocials() {
 }
 window.add = add;
 window.alter = alter;
+window.openCustomize = openCustomize;
+window.closeCustomize = closeCustomize;
+window.selectCustomOption = selectCustomOption;
+window.toggleCustomExtra = toggleCustomExtra;
+window.addCustomizedDrink = addCustomizedDrink;
 window.checkout = checkout;
 window.openCart = openCart;
 window.closeCart = closeCart;

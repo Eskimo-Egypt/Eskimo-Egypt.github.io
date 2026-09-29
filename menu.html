@@ -58,6 +58,31 @@
       <div id="sections"></div>
       <p class="no-results" id="no-results">No products match your search.</p>
     </main>
+    <div class="customize-layer" id="customize-layer">
+  <div class="customize-back" onclick="closeCustomize()"></div>
+
+  <section class="customize-panel">
+    <button class="customize-close" onclick="closeCustomize()">×</button>
+
+    <p class="eyebrow">MAKE IT YOURS</p>
+    <h2 id="customize-title">Your drink.</h2>
+    <p class="customize-base" id="customize-base-price"></p>
+
+    <div id="customize-options"></div>
+    <div class="custom-note-group" id="dessert-note-group" hidden>
+  <label for="customize-note">Anything else?</label>
+  <textarea
+    id="customize-note"
+    placeholder="Example: Cut the waffle into small pieces..."
+  ></textarea>
+</div>
+
+    <button class="customize-add" onclick="addCustomizedDrink()">
+      <span>Add to basket</span>
+      <strong id="customize-total">EGP 0</strong>
+    </button>
+  </section>
+</div>
     <div class="cart-layer">
       <div class="cart-back" onclick="closeCart()"></div>
       <aside class="cart-panel">
@@ -70,14 +95,13 @@
             <span>Total</span><strong data-total>EGP 0</strong>
           </div>
           <div class="instapay-box">
-            <p><strong>Prefer to pay via InstaPay?</strong></p>
+            
 
             <img src="assets/instapay-qr.png" alt="InstaPay QR code" />
 
-            <small>
-              Scan the QR code to pay. After payment, please attach a screenshot
-              of the payment confirmation with your WhatsApp order.
-            </small>
+          <p class="payment-option">
+  <strong>Payment:</strong> Cash is available on delivery, or you can pay via InstaPay by scanning the QR code above. Please attach your payment screenshot to the WhatsApp order.
+</p>
           </div>
           <button class="checkout" onclick="checkout()">
             Place order on WhatsApp
@@ -158,8 +182,17 @@
       );
       function syncProductQuantities() {
         document.querySelectorAll("[data-product]").forEach((card) => {
-          const item = cart.find((x) => x.id === card.dataset.product);
-          const badge = card.querySelector(".item-qty");
+         const quantity = cart
+  .filter(
+    (x) =>
+      x.productId === card.dataset.product ||
+      x.id === card.dataset.product,
+  )
+  .reduce((total, item) => total + item.qty, 0);
+
+const badge = card.querySelector(".item-qty");
+
+badge.textContent = quantity;
           const counter = card.querySelector(".product-qty");
 
           badge.textContent = item ? item.qty : "0";
