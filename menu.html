@@ -21,12 +21,30 @@
       <nav class="nav-links">
         <a href="index.html">Home</a><a class="active" href="menu.html">Menu</a
         ><a href="story.html">Our Story</a><a href="visit.html">Visit Us</a>
+        
       </nav>
+    
       <div class="nav-actions">
-        <button class="cart-trigger" onclick="openCart()">
-          Cart <b data-count>0</b></button
-        ><a class="top-order" href="#menu-start">Order now</a>
-      </div>
+  <div class="role-switch">
+    <button
+      class="role-current"
+      type="button"
+      onclick="toggleRoleMenu(event)"
+    >
+      Customer <span>⌄</span>
+    </button>
+
+    <div class="role-options">
+      <a href="admin.html" target="_blank" rel="noopener">Owner</a>
+    </div>
+  </div>
+
+  <button class="cart-trigger" onclick="openCart()">
+    Cart <b data-count>0</b>
+  </button>
+
+  <a class="top-order" href="#menu-start">Order now</a>
+</div>
       <button
         class="menu-toggle"
         onclick="toggleMobileMenu()"
@@ -76,9 +94,30 @@
     placeholder="Example: Cut the waffle into small pieces..."
   ></textarea>
 </div>
+<div class="custom-quantity">
+  <span>Quantity</span>
+
+  <div class="custom-quantity-control">
+    <button
+      type="button"
+      onclick="changeCustomizeQuantity(-1)"
+    >
+      −
+    </button>
+
+    <b id="customize-quantity">1</b>
+
+    <button
+      type="button"
+      onclick="changeCustomizeQuantity(1)"
+    >
+      +
+    </button>
+  </div>
+</div>
 
     <button class="customize-add" onclick="addCustomizedDrink()">
-      <span>Add to basket</span>
+      <span id="customize-add-text">Add to basket</span>
       <strong id="customize-total">EGP 0</strong>
     </button>
   </section>
@@ -100,16 +139,17 @@
             <img src="assets/instapay-qr.png" alt="InstaPay QR code" />
 
           <p class="payment-option">
-  <strong>Payment:</strong> Cash is available on delivery, or you can pay via InstaPay by scanning the QR code above. Please attach your payment screenshot to the WhatsApp order.
+  <strong>Payment:</strong> Cash is available on delivery, or you can pay via InstaPay by scanning the QR code above.
 </p>
           </div>
           <button class="checkout" onclick="checkout()">
-            Place order on WhatsApp
+            Place Order
           </button>
           <button class="clear-cart" onclick="clearCart()">Clear basket</button>
           <p class="cart-note">
-            Your complete order and total will be ready in the WhatsApp message.
-          </p>
+  Your order will be sent directly to Eskimo.
+</p>
+        
            
         </div>
       </aside>
@@ -133,8 +173,19 @@
           rel="noreferrer"
           >Facebook</a
         >
+        <a
+  href="https://wa.me/201015078571"
+  target="_blank"
+  rel="noreferrer"
+>
+  WhatsApp
+</a>
       </div>
     </footer>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
     <script src="app.js"></script>
     <script>
       const id = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");

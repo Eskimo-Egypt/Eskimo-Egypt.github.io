@@ -133,7 +133,7 @@ function showToast(message) {
 }
 const milkOptions = [
   { name: "Full-Cream milk", price: 0 },
-  { name: "Low-fat milk", price: 0 },
+  { name: "Skimmed milk", price: 0 },
   { name: "Lactose-free milk", price: 20 },
   { name: "Oat milk", price: 25 },
 ];
@@ -148,6 +148,7 @@ const sugarOptions = [
 let customProduct = null;
 let customGroups = [];
 let customChoices = {};
+let customQuantity = 1;
 function isDessertProduct(product) {
   const name = product.name.toLowerCase();
 
@@ -270,6 +271,7 @@ const dessertNote = document.querySelector("#customize-note");
 dessertNoteGroup.hidden = !isDessertProduct(customProduct);
 dessertNote.value = "";
   customChoices = { extras: [] };
+  customQuantity = 1;
 
   customGroups.forEach((group) => {
     if (!group.multiple) {
@@ -337,8 +339,18 @@ function drawCustomizeOptions() {
   document.querySelector("#customize-base-price").textContent =
     "Base price: EGP " + customProduct.price;
 
-  document.querySelector("#customize-total").textContent =
-    "EGP " + (customProduct.price + extraPrice);
+const unitPrice = customProduct.price + extraPrice;
+
+document.querySelector("#customize-total").textContent =
+  "EGP " + unitPrice * customQuantity;
+
+document.querySelector("#customize-quantity").textContent =
+  customQuantity;
+
+document.querySelector("#customize-add-text").textContent =
+  customQuantity === 1
+    ? "Add to basket"
+    : `Add ${customQuantity} to basket`;
 }
 
 function selectCustomOption(groupKey, optionIndex) {
@@ -363,6 +375,15 @@ function toggleCustomExtra(optionIndex) {
   customChoices.extras = exists
     ? customChoices.extras.filter((x) => x.name !== option.name)
     : [...customChoices.extras, option];
+
+  drawCustomizeOptions();
+}
+function changeCustomizeQuantity(amount) {
+  customQuantity += amount;
+
+  if (customQuantity < 1) {
+    customQuantity = 1;
+  }
 
   drawCustomizeOptions();
 }
@@ -391,14 +412,14 @@ function addCustomizedDrink() {
   );
 
   if (found) {
-    found.qty++;
+    found.qty += customQuantity;
   } else {
     cart.push({
       ...customProduct,
       id: customProduct.id + "-" + Date.now(),
       productId: customProduct.id,
       price: customProduct.price + extraPrice,
-      qty: 1,
+      qty: customQuantity,
       customizations,
       customizationKey,
       customNote,
@@ -536,56 +557,192 @@ function checkout() {
     showToast("Your cart is still empty.");
     return;
   }
-const lines = cart
-  .map((x) => {
-    const choices = x.customizations?.length
-      ? "\n  " + x.customizations.join(" • ")
-      : "";
 
-   const allNotes = [x.customNote, x.note]
-  .filter((note) => note && note.trim())
-  .join(" | ");
+  const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
 
-const note = allNotes ? "\n  Note: " + allNotes : "";
+  let layer = document.querySelector(".checkout-layer");
 
-    return (
-      "• " +
-      x.name +
-      " × " +
-      x.qty +
-      " = EGP " +
-      x.qty * x.price +
-      choices +
-      note
-    );
-  })
-  .join("\n");
-  const total = cart.reduce((s, x) => s + x.qty * x.price, 0);
-  window.open(
-    "https://wa.me/201015078571?text=" +
-      encodeURIComponent(
-        "Hello Eskimo! I would like to order:\n" +
-          lines +
-          "\n\nTotal: EGP " +
-          total +
-          "\n==========================="+
-          "\n \n Note => This Total Without Shipping Cost" +
-          "\n Note => for instapay 01143572007 ===> 'Hassan', please send your transaction photo" +
-          
+  if (!layer) {
+    layer = document.createElement("div");
+    layer.className = "checkout-layer";
 
-          " \n * If we’re taking a little longer than usual to reply, we’re sorry for the wait,Please forward these message to our second WhatsApp number: 01033820470 "+
+    layer.innerHTML = `
+      <div class="checkout-back" onclick="closeCheckout()"></div>
 
+      <section class="checkout-panel">
+        <button class="checkout-close" type="button" onclick="closeCheckout()">×</button>
 
-"\n * We’ll get back to you as soon as possible."+
-"\n *Thank you for choosing Eskimo! ❄️"+
-      
-          "\nName : ",
-      ),
-    "_blank",
+        <p class="eyebrow">ALMOST THERE</p>
+        <h2>Complete your order.</h2>
+
+        <p class="checkout-total">
+          Order total
+          <strong data-checkout-total></strong>
+        </p>
+
+        <label for="customer-name">Your name</label>
+        <input id="customer-name" type="text" placeholder="Name" />
+
+        <label for="customer-phone">Phone number</label>
+        <input id="customer-phone" type="tel" placeholder="01xxxxxxxxx" />
+
+        <p class="checkout-label">Payment method</p>
+
+        <div class="payment-choice">
+          <label>
+            <input
+  type="radio"
+  name="payment-method"
+  value="Cash"
+  checked
+  onchange="toggleInstaPayMessage()"
+/>
+            Cash
+          </label>
+
+          <label>
+            <input
+  type="radio"
+  name="payment-method"
+  value="InstaPay"
+  onchange="toggleInstaPayMessage()"
+/>
+            InstaPay
+          </label>
+        </div>
+        <p class="instapay-message" id="instapay-message">
+  Please send a screenshot of your InstaPay transaction to our WhatsApp so we can confirm your payment.
+</p>
+
+        <label for="order-note">
+          Order note <span>(optional)</span>
+        </label>
+
+        <textarea
+          id="order-note"
+          placeholder="Any general notes for your order?"
+        ></textarea>
+
+        <button class="submit-order" type="button" onclick="submitOrder()">
+          Send order
+        </button>
+      </section>
+    `;
+
+    document.body.appendChild(layer);
+  }
+
+  layer.querySelector("[data-checkout-total]").textContent = `EGP ${total}`;
+  layer.classList.add("open");
+}
+
+function closeCheckout() {
+  const layer = document.querySelector(".checkout-layer");
+
+  if (layer) {
+    layer.classList.remove("open");
+  }
+}
+function toggleInstaPayMessage() {
+  const selectedPayment = document.querySelector(
+    'input[name="payment-method"]:checked'
+  ).value;
+
+  const message = document.getElementById("instapay-message");
+
+  if (selectedPayment === "InstaPay") {
+    message.classList.add("show");
+  } else {
+    message.classList.remove("show");
+  }
+}
+function resetCheckoutForm() {
+  const name = document.getElementById("customer-name");
+  const phone = document.getElementById("customer-phone");
+  const note = document.getElementById("order-note");
+
+  if (name) {
+    name.value = "";
+  }
+
+  if (phone) {
+    phone.value = "";
+  }
+
+  if (note) {
+    note.value = "";
+  }
+
+  const cash = document.querySelector(
+    'input[name="payment-method"][value="Cash"]'
   );
-  cart = [];
-save();
-closeCart();
+
+  if (cash) {
+    cash.checked = true;
+  }
+
+  const instaPayMessage = document.getElementById(
+    "instapay-message"
+  );
+
+  if (instaPayMessage) {
+    instaPayMessage.classList.remove("show");
+  }
+}
+
+async function submitOrder() {
+  const name = document.getElementById("customer-name").value.trim();
+  const phone = document.getElementById("customer-phone").value.trim();
+  const notes = document.getElementById("order-note").value.trim();
+
+  const paymentMethod = document.querySelector(
+    'input[name="payment-method"]:checked'
+  ).value;
+
+  const button = document.querySelector(".submit-order");
+
+  if (!name || !phone) {
+    showToast("Please enter your name and phone number.");
+    return;
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
+
+  button.disabled = true;
+  button.textContent = "Sending order…";
+
+  try {
+    const order = await window.eskimoDb.collection("orders").add({
+      customerName: name,
+      customerPhone: phone,
+      notes: notes,
+      paymentMethod: paymentMethod,
+      status: "New",
+      total: total,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+
+      items: cart.map((item) => ({
+        name: item.name,
+        quantity: item.qty,
+        price: item.price,
+        customizations: (item.customizations || []).join(" • "),
+        note: [item.customNote, item.note].filter(Boolean).join(" | "),
+      })),
+    });
+
+    cart = [];
+    save();
+    resetCheckoutForm();
+    closeCheckout();
+    closeCart();
+
+    showToast(`Order sent! #${order.id.slice(-6).toUpperCase()}`);
+  } catch (error) {
+    showToast("Could not send the order. Please try again.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Send order";
+  }
 }
 function openCart() {
   const panel = $(".cart-layer");
@@ -606,6 +763,23 @@ function toggleMobileMenu() {
   button.classList.toggle("open", isOpen);
   button.setAttribute("aria-expanded", isOpen);
 }
+function toggleRoleMenu(event) {
+  event.stopPropagation();
+
+  const roleSwitch = document.querySelector(".role-switch");
+
+  if (roleSwitch) {
+    roleSwitch.classList.toggle("open");
+  }
+}
+
+document.addEventListener("click", (event) => {
+  const roleSwitch = document.querySelector(".role-switch");
+
+  if (roleSwitch && !roleSwitch.contains(event.target)) {
+    roleSwitch.classList.remove("open");
+  }
+});
 document.addEventListener("click", (e) => {
   const cartLayer = $(".cart-layer");
   const cartPanel = $(".cart-panel");
@@ -656,5 +830,7 @@ window.changeProductQuantity = changeProductQuantity;
 window.toggleNote = toggleNote;
 window.updateNote = updateNote;
 window.closeNoteIfEmpty = closeNoteIfEmpty;
+window.toggleRoleMenu = toggleRoleMenu;
+window.changeCustomizeQuantity = changeCustomizeQuantity;
 drawCart();
 addFooterSocials();

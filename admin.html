@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Eskimo — Owner Orders</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+
+  <body>
+    <main class="admin-shell">
+      <section class="login-card" id="login-card">
+        <p class="eyebrow">ESKIMO EGYPT</p>
+        <h1>Owner orders</h1>
+        <p class="intro">Sign in with the owner username.</p>
+
+  <label for="owner-username">Username</label>
+
+<input
+  id="owner-username"
+  type="text"
+  autocomplete="username"
+  placeholder="Username"
+/>
+
+        <label for="owner-password">Password</label>
+        <input
+          id="owner-password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="••••••••"
+        />
+
+        <p class="login-error" id="login-error"></p>
+        <button
+  class="forgot-password"
+  type="button"
+  onclick="sendPasswordReset()"
+>
+  Forgot password?
+</button>
+
+        <button
+          class="primary-button"
+          id="login-button"
+          type="button"
+          onclick="ownerLogin()"
+        >
+          Sign in
+        </button>
+      </section>
+
+      <section class="dashboard hidden" id="dashboard">
+        <header class="dashboard-header">
+          <div>
+            <p class="eyebrow">ESKIMO EGYPT</p>
+            <h1>Orders</h1>
+           
+          </div>
+
+         <div class="dashboard-actions">
+  <button
+    class="sound-button"
+    id="sound-button"
+    type="button"
+    onclick="enableOrderAlerts()"
+  >
+    Enable sound
+  </button>
+
+  <button class="signout-button" type="button" onclick="ownerLogout()">
+    Sign out
+  </button>
+</div>
+        </header>
+
+        <div class="orders-state" id="orders-state">
+          Loading orders…
+        </div>
+
+        <div class="orders-list" id="orders-list"></div>
+      </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
