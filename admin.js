@@ -97,18 +97,26 @@ function playNewOrderSound() {
 }
 
 function showNewOrderAlert(order) {
-  playNewOrderSound();
+  try {
+    playNewOrderSound();
+  } catch (error) {
+    console.warn("Sound alert failed.", error);
+  }
 
-  if (
-    "Notification" in window &&
-    Notification.permission === "granted"
-  ) {
-    new Notification("New Eskimo order ☕", {
-      body: `${order.customerName || "Customer"} — ${
-        Number(order.total) || 0
-      } EGP`,
-      icon: "assets/favicon.png",
-    });
+  try {
+    if (
+      "Notification" in window &&
+      Notification.permission === "granted"
+    ) {
+      new Notification("New Eskimo order ☕", {
+        body: `${order.customerName || "Customer"} — ${
+          Number(order.total) || 0
+        } EGP`,
+        icon: "assets/favicon.png",
+      });
+    }
+  } catch (error) {
+    console.warn("Notification alert failed.", error);
   }
 }
 function renderOrder(id, order) {
@@ -324,13 +332,11 @@ function listenToOrders() {
     .orderBy("createdAt", "desc")
     .onSnapshot(
       (snapshot) => {
-        if (!isFirstOrdersLoad) {
-          snapshot.docChanges().forEach((change) => {
-            if (change.type === "added") {
-              showNewOrderAlert(change.doc.data());
-            }
-          });
-        }
+        const newOrders = !isFirstOrdersLoad
+          ? snapshot.docChanges()
+              .filter((change) => change.type === "added")
+              .map((change) => change.doc.data())
+          : [];
 
         if (snapshot.empty) {
           ordersList.innerHTML = "";
@@ -346,6 +352,12 @@ function listenToOrders() {
 
         ordersState.hidden = true;
         isFirstOrdersLoad = false;
+
+        newOrders.forEach((order) => {
+          setTimeout(() => {
+            showNewOrderAlert(order);
+          }, 0);
+        });
       },
       (error) => {
         ordersState.textContent =
