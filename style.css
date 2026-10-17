@@ -1451,3 +1451,14 @@ a {
   min-width: 20px;
   text-align: center;
 }
+.checkout-error {
+  display: none;
+  margin: 10px 0;
+  color: #bd3e2a;
+  font: 700 0.72rem Manrope, sans-serif;
+  line-height: 1.5;
+}
+
+.checkout-error.show {
+  display: block;
+}

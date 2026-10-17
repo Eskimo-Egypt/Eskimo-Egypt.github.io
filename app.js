@@ -77,6 +77,7 @@ const sourceGroups = {
     ["Lemon Mint Smoothie", 60, "7942-4"],
     ["Watermelon Smoothie", 75, "7943-1"],
   ],
+  
   Soda: [
     ["Blue Iced Soda", 80, "7943-2"],
     ["Green Apple Soda", 85, "7943-3"],
@@ -581,10 +582,23 @@ function checkout() {
         </p>
 
         <label for="customer-name">Your name</label>
-        <input id="customer-name" type="text" placeholder="Name" />
+        <input
+  id="customer-name"
+  type="text"
+  maxlength="50"
+  autocomplete="name"
+  placeholder="Your name"
+/>
 
         <label for="customer-phone">Phone number</label>
-        <input id="customer-phone" type="tel" placeholder="01xxxxxxxxx" />
+<input
+  id="customer-phone"
+  type="tel"
+  inputmode="numeric"
+  maxlength="13"
+  autocomplete="tel"
+  placeholder="01012345678"
+/>
 
         <p class="checkout-label">Payment method</p>
 
@@ -618,11 +632,12 @@ function checkout() {
           Order note <span>(optional)</span>
         </label>
 
-        <textarea
-          id="order-note"
-          placeholder="Any general notes for your order?"
-        ></textarea>
-
+<textarea
+  id="order-note"
+  maxlength="300"
+  placeholder="Any note for your order? (Optional)"
+></textarea>
+<p id="checkout-error" class="checkout-error" aria-live="polite"></p>
         <button class="submit-order" type="button" onclick="submitOrder()">
           Send order
         </button>
@@ -689,22 +704,97 @@ function resetCheckoutForm() {
     instaPayMessage.classList.remove("show");
   }
 }
+function formatEgyptianPhone(phone) {
+  const cleanPhone = phone.replace(/[\s()-]/g, "");
 
+  if (/^01[0125]\d{8}$/.test(cleanPhone)) {
+    return cleanPhone;
+  }
+
+  if (/^\+201[0125]\d{8}$/.test(cleanPhone)) {
+    return "0" + cleanPhone.slice(3);
+  }
+
+  return null;
+}
+function formatCustomerName(name) {
+  const cleanName = name.replace(/\s+/g, " ").trim();
+
+  const isValidName =
+    cleanName.length >= 2 &&
+    cleanName.length <= 50 &&
+    /^[A-Za-z\u0600-\u06FF\s.'-]+$/.test(cleanName) &&
+    /[A-Za-z\u0600-\u06FF]/.test(cleanName);
+
+  return isValidName ? cleanName : null;
+}
+
+function formatOrderNote(note) {
+  return note.replace(/\s+/g, " ").trim();
+}
+function showCheckoutError(message) {
+  const errorElement = document.getElementById("checkout-error");
+
+  if (!errorElement) return;
+
+  errorElement.textContent = message;
+  errorElement.classList.add("show");
+}
+
+function clearCheckoutError() {
+  const errorElement = document.getElementById("checkout-error");
+
+  if (!errorElement) return;
+
+  errorElement.textContent = "";
+  errorElement.classList.remove("show");
+}
 async function submitOrder() {
-  const name = document.getElementById("customer-name").value.trim();
-  const phone = document.getElementById("customer-phone").value.trim();
-  const notes = document.getElementById("order-note").value.trim();
+  clearCheckoutError();
+const nameInput = document.getElementById("customer-name").value;
+const phoneInput = document.getElementById("customer-phone").value;
+const noteInput = document.getElementById("order-note").value;
 
-  const paymentMethod = document.querySelector(
-    'input[name="payment-method"]:checked'
-  ).value;
+const customerName = formatCustomerName(nameInput);
+const phone = formatEgyptianPhone(phoneInput);
+const orderNote = formatOrderNote(noteInput);
+
+const paymentMethod = document.querySelector(
+  'input[name="payment-method"]:checked'
+)?.value;
 
   const button = document.querySelector(".submit-order");
 
-  if (!name || !phone) {
-    showToast("Please enter your name and phone number.");
-    return;
-  }
+if (!Array.isArray(cart) || cart.length === 0) {
+  checkoutError.textContent = "Your basket is empty.";
+  return;
+}
+
+if (!customerName) {
+  showCheckoutError(
+    "Please enter a valid name using Arabic or English letters."
+  );
+  return;
+}
+
+if (!phone) {
+showCheckoutError(
+  "Please enter a valid Egyptian phone number, for example: 01012345678."
+);
+  return;
+}
+
+if (!["Cash", "InstaPay"].includes(paymentMethod)) {
+  showCheckoutError("Please choose a payment method.");
+  return;
+}
+
+if (orderNote.length > 300) {
+  showCheckoutError(
+    "Your note is too long. Please keep it under 300 characters."
+  );
+  return;
+}
 
   const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
 
@@ -713,10 +803,10 @@ async function submitOrder() {
 
   try {
     const order = await window.eskimoDb.collection("orders").add({
-      customerName: name,
-      customerPhone: phone,
-      notes: notes,
-      paymentMethod: paymentMethod,
+customerName: customerName,
+phone: phone,
+notes: orderNote,
+paymentMethod: paymentMethod,
       status: "New",
       total: total,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
