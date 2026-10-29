@@ -1,9 +1,12 @@
 const sourceGroups = {
   "Most Ordered": [
     ["Spanish Latte", 110, "7926-1"],
+    ["Kiwi Soda", 90, "7943-4"],
+    ["Mango Matcha", 110, "7931-4"],
+    ["Peach Matcha", 105, "7931-1"],
+    ["Mango Peach", 110, "7939-3"],
     ["Waffle Stick", 90, "7926-2"],
-    ["Caramel Frappe", 110, "7926-3"],
-    ["Latte", 90, "7926-4"],
+    
   ],
   "Specialty Coffee": [
     ["Latte", 90, "7926-4"],
@@ -599,6 +602,15 @@ function checkout() {
   autocomplete="tel"
   placeholder="01012345678"
 />
+<label for="customer-address">Delivery address</label>
+
+<textarea
+  id="customer-address"
+  rows="3"
+  maxlength="250"
+  autocomplete="street-address"
+  placeholder="Building number, street, area, and nearest landmark"
+></textarea>
 
         <p class="checkout-label">Payment method</p>
 
@@ -675,6 +687,7 @@ function resetCheckoutForm() {
   const name = document.getElementById("customer-name");
   const phone = document.getElementById("customer-phone");
   const note = document.getElementById("order-note");
+  const address = document.getElementById("customer-address");
 
   if (name) {
     name.value = "";
@@ -682,6 +695,9 @@ function resetCheckoutForm() {
 
   if (phone) {
     phone.value = "";
+  }
+  if (address) {
+    address.value = "";
   }
 
   if (note) {
@@ -749,12 +765,22 @@ function clearCheckoutError() {
   errorElement.textContent = "";
   errorElement.classList.remove("show");
 }
+function formatCustomerAddress(address) {
+  const cleanAddress = address.replace(/\s+/g, " ").trim();
+
+  if (cleanAddress.length < 8 || cleanAddress.length > 250) {
+    return null;
+  }
+
+  return cleanAddress;
+}
 async function submitOrder() {
   clearCheckoutError();
 const nameInput = document.getElementById("customer-name").value;
 const phoneInput = document.getElementById("customer-phone").value;
 const noteInput = document.getElementById("order-note").value;
-
+const addressInput = document.getElementById("customer-address").value;
+const address = formatCustomerAddress(addressInput);
 const customerName = formatCustomerName(nameInput);
 const phone = formatEgyptianPhone(phoneInput);
 const orderNote = formatOrderNote(noteInput);
@@ -783,6 +809,12 @@ showCheckoutError(
 );
   return;
 }
+if (!address) {
+  showCheckoutError(
+    "Please enter your full delivery address, including area and street."
+  );
+  return;
+}
 
 if (!["Cash", "InstaPay"].includes(paymentMethod)) {
   showCheckoutError("Please choose a payment method.");
@@ -805,6 +837,7 @@ if (orderNote.length > 300) {
     const order = await window.eskimoDb.collection("orders").add({
 customerName: customerName,
 customerPhone: phone,
+address: address,
 notes: orderNote,
 paymentMethod: paymentMethod,
       status: "New",

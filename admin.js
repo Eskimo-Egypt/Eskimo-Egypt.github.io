@@ -218,6 +218,10 @@ function renderOrder(id, order) {
           <p class="order-phone">
   ${escapeHTML(order.customerPhone || order.phone || "No phone")}
 </p>
+<p class="order-address">
+  <strong>Address:</strong>
+  ${escapeHTML(order.address || "No address")}
+</p>
           <p class="order-date">${formatDate(order.createdAt)}</p>
         </div>
 
