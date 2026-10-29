@@ -804,7 +804,7 @@ if (orderNote.length > 300) {
   try {
     const order = await window.eskimoDb.collection("orders").add({
 customerName: customerName,
-phone: phone,
+customerPhone: phone,
 notes: orderNote,
 paymentMethod: paymentMethod,
       status: "New",

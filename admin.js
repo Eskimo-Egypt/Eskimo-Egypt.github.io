@@ -215,7 +215,9 @@ function renderOrder(id, order) {
         <div>
           <p class="order-id">ORDER #${escapeHTML(id.slice(-6).toUpperCase())}</p>
           <h2>${escapeHTML(order.customerName || "Customer")}</h2>
-          <p class="order-contact">${escapeHTML(order.customerPhone || "No phone")}</p>
+          <p class="order-phone">
+  ${escapeHTML(order.customerPhone || order.phone || "No phone")}
+</p>
           <p class="order-date">${formatDate(order.createdAt)}</p>
         </div>
 
