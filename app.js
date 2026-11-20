@@ -1,101 +1,254 @@
 const sourceGroups = {
   "Most Ordered": [
-    ["Spanish Latte", 110, "7926-1"],
-    ["Kiwi Soda", 90, "7943-4"],
-    ["Mango Matcha", 110, "7931-4"],
-    ["Peach Matcha", 105, "7931-1"],
+    ["Spanish Latte", 125, "7926-1"],
+    ["Kiwi Soda", 110, "7943-4"],
+    ["Mango Matcha", 120, "7931-4"],
+    ["Peach Matcha", 130, "7931-1"],
     ["Mango Peach", 110, "7939-3"],
-    ["Waffle Stick", 90, "7926-2"],
-    
+    ["Waffle Stick", 100, "7945-1"],
   ],
+
   "Specialty Coffee": [
-    ["Latte", 90, "7926-4"],
-    ["Golden Mocha", 100, "7927-1"],
-    ["Golden Caramel", 100, "7927-2"],
-    ["Golden White", 100, "7927-3"],
-    ["Pistachio Latte", 110, "7927-4"],
-    ["Spanish Latte", 110, "7928-1"],
-    ["Oreo Latte", 110, "7928-2"],
-    ["Strawberry Coca", 100, "7928-3"],
-    ["Coffee Frappe", 100, "7928-4"],
-    ["Vanilla Frappe", 105, "7929-1"],
-    ["Chocolate Frappe", 110, "7929-2"],
-    ["Caramel Frappe", 110, "7929-3"],
-    ["Hazelnut Latte", 100, "7929-4"],
-    ["Popcorn Latte", 100, "7930-1"],
-    ["Salted Caramel Latte", 110, "7930-2"],
-    ["Pistachio Frappe", 120, "7930-3"],
+    ["Americano", 100, "7000-1"],
+    ["Latte", 110, "7926-4"],
+    ["Spanish Latte", 125, "7928-1"],
+    ["Golden Mocha", 120, "7927-1"],
+    ["Salted Caramel Latte", 130, "7930-2"],
+    ["Cinnamon Latte", 130, "7000-2"],
+    ["Mix Over Espresso", 110, "7000-3"],
+    ["Oreo Latte", 120, "7928-2"],
+],
+"Frappe": [
+    ["Coffee Frappe", 110, "7928-4"],
+    ["Vanilla Frappe", 110, "7929-1"],
+    ["Chocolate Frappe", 120, "7929-2"],
+    ["Caramel Frappe", 120, "7929-3"],
+    ["Pistachio Frappe", 130, "7930-3"],
+    ["Hazelnut Frappe", 130, "7000-4"],
+    ["Salted Caramel Frappe", 130, "7001-1"],
   ],
+
   "Specialty Matcha": [
-    ["Strawberry Matcha", 100, "7930-4"],
-    ["Peach Matcha", 105, "7931-1"],
-    ["Orange Matcha", 100, "7931-2"],
-    ["Coconut Matcha", 100, "7931-3"],
-    ["Mango Matcha", 110, "7931-4"],
-    ["Caramel Matcha", 100, "7932-1"],
-    ["Salted Caramel Matcha", 110, "7932-2"],
-    ["Spanish Matcha", 110, "7932-3"],
-    ["Frappe Matcha", 110, "7932-4"],
-    ["Classic Matcha", 90, "7933-1"],
-    ["Soda Matcha", 110, "7933-2"],
+    ["Classic Matcha", 110, "7933-1"],
+    ["Strawberry Matcha", 120, "7930-4"],
+    ["Mango Matcha", 120, "7931-4"],
+    ["Peach Matcha", 130, "7931-1"],
+    ["Coconut Matcha", 130, "7931-3"],
+    ["Caramel Matcha", 120, "7932-1"],
+    ["Salted Caramel Matcha", 130, "7932-2"],
+    ["Cinnamon Matcha", 150, "7001-2"],
+    ["Spanish Matcha", 120, "7932-3"],
+    ["White Chocolate Matcha", 120, "7001-3"],
+    ["Frappe Matcha", 130, "7932-4"],
   ],
+
   "Fresh Juice": [
-    ["Mango Juice", 75, "7933-3"],
-    ["Strawberry Juice", 65, "7935-1"],
-    ["Strawberry Milk Juice", 85, "7935-2"],
-    ["Guava Juice", 65, "7935-3"],
-    ["Guava Milk Juice", 85, "7935-4"],
-    ["Dates Milk Juice", 85, "7936-1"],
-    ["Banana Milk Juice", 70, "7936-2"],
-    ["Watermelon Juice", 65, "7936-3"],
-    ["Orange Juice", 60, "7936-4"],
-    ["Peach Juice", 100, "7937-1"],
+    ["Mango Juice", 85, "7933-3"],
+    ["Strawberry Juice", 75, "7935-1"],
+    ["Strawberry Milk Juice", 95, "7935-2"],
+    ["Guava Juice", 75, "7935-3"],
+    ["Guava Milk Juice", 95, "7935-4"],
+    ["Dates Milk Juice", 95, "7936-1"],
+    ["Banana Milk Juice", 75, "7936-2"],
+    ["Watermelon Juice", 75, "7936-3"],
+    ["Watermelon Mint", 80, "7001-4"],
+    ["Peach Juice", 110, "7937-1"],
     ["Kiwi Juice", 110, "7937-2"],
-    ["Lemon Mint", 50, "7937-3"],
-    ["Green Apple Juice", 90, "7937-4"],
+    ["Orange Juice", 75, "7936-4"],
+    ["Lemon Juice", 60, "7002-1"],
+    ["Lemon Mint", 65, "7937-3"],
   ],
+
   Cocktail: [
-    ["Frozen Wave", 100, "7938-1"],
-    ["Ice Squash", 95, "7938-2"],
-    ["White Eskimo", 110, "7938-3"],
-    ["Summer Splash", 90, "7938-4"],
-    ["Mango Kiwi", 105, "7939-1"],
-    ["Eskimo Power", 150, "7939-2"],
+    ["Frozen Wave", 110, "7938-1"],
+    ["Ice Squash", 110, "7938-2"],
+    ["White Eskimo", 120, "7938-3"],
+    ["Summer Splash", 100, "7938-4"],
+    ["Mango Kiwi", 110, "7939-1"],
     ["Mango Peach", 110, "7939-3"],
+    ["Positive Energy", 100, "7002-2"],
+    ["Eskimo Power", 160, "7939-2"],
+    ["Kiwi Avocado", 160, "7002-3"],
   ],
+
   Milkshake: [
-    ["Mango Milkshake", 100, "7939-4"],
-    ["Strawberry Milkshake", 100, "7940-1"],
-    ["Pistachio Milkshake", 120, "7940-3"],
+    ["Flavour Milkshake", 110, "7941-2"],
+    ["Vanilla Milkshake", 110, "7002-4"],
+    ["Chocolate Milkshake", 110, "7941-1"],
+    ["Strawberry Milkshake", 110, "7940-1"],
+    ["Mango Milkshake", 110, "7939-4"],
+    ["Peach Milkshake", 120, "7003-1"],
     ["Caramel Milkshake", 110, "7940-4"],
-    ["Chocolate Milkshake", 100, "7941-1"],
-    ["Flavour Milkshake", 100, "7941-2"],
-    ["Lotus Milkshake", 110, "7941-3"],
-    ["Oreo Milkshake", 110, "7941-4"],
+    ["Salted Caramel Milkshake", 120, "7003-2"],
+    ["Cinnamon Milkshake", 120, "7003-3"],
+    ["Lotus Milkshake", 120, "7941-3"],
+    ["Pistachio Milkshake", 140, "7940-3"],
+    ["Oreo Milkshake", 120, "7941-4"],
+    ["Coffee Milkshake", 130, "7003-4"],
+    ["Matcha Milkshake", 150, "7004-1"],
   ],
+
   Smoothie: [
-    ["Choose Your Flavour", 70, "7942-1"],
-    ["Mango Smoothie", 85, "7942-2"],
-    ["Strawberry Smoothie", 75, "7942-3"],
-    ["Lemon Mint Smoothie", 60, "7942-4"],
-    ["Watermelon Smoothie", 75, "7943-1"],
+    ["Flavour Smoothie", 80, "7942-1"],
+    ["Cherry Smoothie", 90, "7004-2"],
+    ["Pina Colada", 90, "7004-3"],
+    ["Pomegranate Smoothie", 90, "7004-4"],
+    ["Tropical", 100, "7005-1"],
+    ["Mango Passion", 100, "7005-2"],
+    ["Peach Passion", 100, "7005-3"],
   ],
-  
+
   Soda: [
-    ["Blue Iced Soda", 80, "7943-2"],
-    ["Green Apple Soda", 85, "7943-3"],
-    ["Kiwi Soda", 90, "7943-4"],
-    ["Roman Soda", 90, "7944-1"],
-    ["Eskimo Energy", 150, "7944-2"],
-    ["Orange Honey Lemon", 85, "7944-3"],
-    ["Coconut Soda", 85, "7944-4"],
+    ["Flavour Soda", 90, "7005-4"],
+    ["Kiwi Soda", 110, "7943-4"],
+    ["Peach Soda", 100, "7006-1"],
+    ["Green Apple Soda", 100, "7943-3"],
+    ["Orange Honey Lemon", 90, "7944-3"],
+    ["Eskimo Energy", 160, "7944-2"],
   ],
+
+  "Iced Tea": [
+    ["Flavor Iced Tea", 110, "7006-2"],
+  ],
+
   Dessert: [
-    ["Waffle Stick", 90, "7945-1"],
-    ["Nutella Fruit Salad", 100, "7945-2"],
-    ["Mochi", 70, "7945-3"],
+    ["Waffle Stick", 100, "7945-1"],
+    ["Nutella Fruit Salad", 120, "7945-2"],
+    ["Mochi", 80, "7945-3"],
+    ["Discover Your Favorite Madness", 100, "7006-3"],
+    ["Discover Your Favourite Sweet", 150, "7006-4"],
+    ["Ice Cream Scoop", 50, "7007-1"],
+  ],
+
+  Extras: [
+    ["Your Lover Boba", 35, "7007-2"],
+    ["Coconut Milk", 50, "7007-3"],
+    ["Syrup", 25, "7007-4"],
+    ["Blend", 10, "7008-1"],
+    ["Nuts", 30, "7008-2"],
+    ["Extra Espresso Shot", 30, "7008-3"],
   ],
 };
+const flavorLists = {
+  Milkshake: [
+    "Blueberry",
+    "Mixed Berry",
+    "Passion Fruit",
+    "Cherry",
+    "Pomegranate",
+  ],
+
+  Smoothie: [
+    "Blueberry",
+    "Mixed Berry",
+    "Passion Fruit",
+    "Pineapple",
+    "Coconut",
+  ],
+
+  Soda: [
+    "Blueberry",
+    "Mixed Berry",
+    "Passion Fruit",
+    "Cherry",
+    "Pomegranate",
+    "Pineapple",
+    "Strawberry",
+    "Mango",
+    "Mint",
+    "Coconut",
+  ],
+
+  GoldenMocha: [
+    "Chocolate",
+    "Dark Chocolate",
+    "White Chocolate",
+    "Caramel",
+    "Pistachio",
+  ],
+
+  Syrup: [
+    "Vanilla",
+    "Hazelnut",
+    "Popcorn",
+  ],
+};
+
+const productDescriptions = {
+  "Frozen Wave":
+    "Peach · Coconut ",
+
+  "Ice Squash":
+    "Mango · Strawberry · Banana · Ice cream",
+
+  "White Eskimo":
+    "Banana · Ice cream · Caramel · Nuts ",
+
+  "Summer Splash":
+    "Watermelon · Strawberry · Lemon ",
+
+  "Mango Kiwi":
+    "Mango · Kiwi ",
+
+  "Mango Peach":
+    "Mango · Peach ",
+
+  "Positive Energy":
+    "Orange · Kiwi · Mint ",
+
+  "Eskimo Power":
+    "Avocado · Dates · Ice cream · Nuts · Honey ",
+
+  "Kiwi Avocado":
+    "Avocado · Kiwi · Nuts · Honey ",
+
+  "Discover Your Favorite Madness":
+    " Ice cream · Biscuit · Espresso · Flavor ",
+  "Discover Your Favourite Sweet":
+    "Umm Ali with nuts and honey  ",
+
+  "Ice Cream Scoop":
+    "Your choice of ice cream ",
+
+  "Pina Colada":
+    "Pineapple · Coconut ",
+
+  "Tropical":
+    "Mango · Pineapple · Coconut · Lemon ",
+
+  "Golden Mocha":
+    "Dark chocolate · White chocolate · Caramel · Pistachio",
+
+  "Mix Over Espresso":
+    "Mixed coffee ",
+
+  "Blend":
+    "Your drink blended with ice for a thick, frozen texture ",
+  "Syrup":
+    "Vanilla · Hazelnut · Popcorn ",
+};
+function getProductDescription(product) {
+if (
+  [
+    "Milkshake",
+    "Smoothie",
+    "Soda",
+  ].includes(product.category) &&
+  /flavou?r/i.test(product.name)
+) {
+    const flavors = flavorLists[product.category];
+
+    if (flavors) {
+      return flavors.join(" · ");
+    }
+
+    if (product.category === "Iced Tea") {
+      return "Choose your favorite flavor ";
+    }
+  }
+
+  return productDescriptions[product.name] || "";
+}
 const categories = Object.keys(sourceGroups);
 const products = categories.flatMap((c) =>
   sourceGroups[c].map((x, i) => ({
@@ -138,8 +291,7 @@ function showToast(message) {
 const milkOptions = [
   { name: "Full-Cream milk", price: 0 },
   { name: "Skimmed milk", price: 0 },
-  { name: "Lactose-free milk", price: 20 },
-  { name: "Oat milk", price: 25 },
+ { name: "Coconut Milk", price: 50 },
 ];
 
 const sugarOptions = [
@@ -182,31 +334,105 @@ function getCustomizationGroups(product) {
     !name.includes("soda");
 
   const groups = [];
+  if (isDessert) {
   if (name === "waffle stick") {
-  groups.push({
-    key: "sauce",
-    title: "Choose your sauce",
-    options: [
-      { name: "No sauce", price: 0 },
-      { name: "Chocolate sauce", price: 0 },
-      { name: "Caramel sauce", price: 0 },
-      { name: "White chocolate sauce", price: 0 },
-      { name: "Pistachio sauce", price: 0 },
+    groups.push({
+      key: "sauce",
+      title: "Choose your sauce",
+      required: true,
+      options: [
+        { name: "No sauce", price: 0 },
+        { name: "Chocolate sauce", price: 0 },
+        { name: "Caramel sauce", price: 0 },
+        { name: "White chocolate sauce", price: 0 },
+        { name: "Pistachio sauce", price: 0 },
+      ],
+    });
+  }
 
+  if (name === "discover your favorite madness") {
+    groups.push({
+      key: "flavor",
+      title: "Choose your flavor",
+      required: true,
+      options: flavorLists.GoldenMocha.map((flavor) => ({
+        name: flavor,
+        price: 0,
+      })),
+    });
+  }
+
+  if (name === "nutella fruit salad") {
+    groups.push({
+      key: "nutella",
+      title: "Nutella",
+      options: [
+        { name: "With Nutella", price: 0 },
+        { name: "Without Nutella", price: 0 },
+      ],
+    });
+  }
+  if (name === "ice cream scoop") {
+  groups.push({
+    key: "flavor",
+    title: "Choose your ice cream flavor",
+    required: true,
+    options: [
+      { name: "Chocolate", price: 0 },
+      { name: "Vanilla", price: 0 },
+      { name: "Pistachio", price: 0 },
+      { name: "Strawberry", price: 0 },
+      { name: "Mango", price: 0 },
     ],
   });
 }
 
-if (name === "nutella with fruit") {
+  return groups;
+}
+  let availableFlavors = [];
+
+if (
+  [
+    "Milkshake",
+    "Smoothie",
+    "Soda",
+  ].includes(product.category) &&
+  /flavou?r/i.test(product.name)
+) {
+  availableFlavors = flavorLists[product.category] || [];
+}
+
+if (product.name === "Golden Mocha") {
+  availableFlavors = flavorLists.GoldenMocha;
+}
+
+if (availableFlavors.length) {
   groups.push({
-    key: "nutella",
-    title: "Nutella",
-    options: [
-      { name: "With Nutella", price: 0 },
-      { name: "Without Nutella", price: 0 },
-    ],
+    key: "flavor",
+    title: "Choose your flavor",
+    required: true,
+    options: availableFlavors.map((flavor) => ({
+      name: flavor,
+      price: 0,
+    })),
   });
 }
+if (product.category === "Extras") {
+  if (name === "syrup") {
+    groups.push({
+      key: "syrupFlavor",
+      title: "Choose your syrup flavor",
+      required: true,
+      options: flavorLists.Syrup.map((flavor) => ({
+        name: flavor,
+        price: 0,
+      })),
+    });
+  }
+
+  return groups;
+}
+
 
   if (isMilkDrink) {
     groups.push({
@@ -224,41 +450,71 @@ if (name === "nutella with fruit") {
     });
   }
 
-  if (isCoffee) {
-    groups.push({
-      key: "extras",
-      title: "Extras",
-      multiple: true,
-      options: [
-        { name: "Extra espresso shot", price: 35 },
-        { name: "Vanilla ", price: 15 },
-        { name: "Chocolate ", price: 15 },
-        { name: "Caramel ", price: 15 },
-        { name: "Pistachio ", price: 25 },
+const extraOptions = [];
 
-      ],
-    });
-  } else if (isMatcha) {
-    groups.push({
-      key: "extras",
-      title: "Extras",
-      multiple: true,
-      options: [
-        { name: "Extra matcha", price: 30 },
-       
-      ],
-    });
-  } else if (
-    product.category === "Milkshake" ||
-    product.category === "Smoothie"
-  ) {
-    groups.push({
-      key: "extras",
-      title: "Extras",
-      multiple: true,
-      options: [{ name: "matcha", price: 45 }], // Example extra for milkshakes and smoothies ana m3rfsh ehh momkn ykon feh, so I added matcha as an example
+const isAlreadyBlended =
+  name.includes("frappe") ||
+  name.includes("frappé") ||
+  product.category === "Smoothie" ||
+  product.category === "Milkshake";
+
+if (!isDessert) {
+  extraOptions.push({
+    name: "Your Lover Boba",
+    price: 35,
+  });
+
+  if (!isAlreadyBlended) {
+    extraOptions.push({
+      name: "Blend",
+      price: 10,
     });
   }
+}
+
+if (
+  isCoffee ||
+  product.category === "Milkshake"
+) {
+  extraOptions.push({
+    name: "Extra Espresso Shot",
+    price: 30,
+  });
+}
+
+if (
+  
+  product.category === "Milkshake" ||
+  product.category === "Smoothie" ||
+  product.category === "Cocktail"
+) {
+  extraOptions.push({
+    name: "Nuts",
+    price: 30,
+  });
+}
+
+if (extraOptions.length) {
+  groups.push({
+    key: "extras",
+    title: "Extras — price per item",
+    multiple: true,
+    options: extraOptions,
+  });
+}
+
+groups.push({
+  key: "syrup",
+  title: "Add syrup",
+  options: [
+    { name: "No syrup", price: 0 },
+
+    ...flavorLists.Syrup.map((flavor) => ({
+      name: `${flavor} Syrup`,
+      price: 25,
+    })),
+  ],
+});
 
   return groups;
 }
@@ -267,6 +523,7 @@ function openCustomize(id) {
   customProduct = products.find((x) => x.id === id);
 
   if (!customProduct) return;
+  document.querySelector("#customize-error").textContent = "";
 
   customGroups = getCustomizationGroups(customProduct);
   const dessertNoteGroup = document.querySelector("#dessert-note-group");
@@ -277,11 +534,11 @@ dessertNote.value = "";
   customChoices = { extras: [] };
   customQuantity = 1;
 
-  customGroups.forEach((group) => {
-    if (!group.multiple) {
-      customChoices[group.key] = group.options[0];
-    }
-  });
+customGroups.forEach((group) => {
+  if (!group.multiple && !group.required) {
+    customChoices[group.key] = group.options[0];
+  }
+});
 
   document.querySelector("#customize-title").textContent =
     customProduct.name;
@@ -311,7 +568,7 @@ function drawCustomizeOptions() {
                   ? customChoices.extras.some(
                       (x) => x.name === option.name,
                     )
-                  : customChoices[group.key].name === option.name;
+                  : customChoices[group.key]?.name === option.name;
 
                 return `
                   <button
@@ -324,7 +581,7 @@ function drawCustomizeOptions() {
                   >
                     <span>${option.name}</span>
                     <small>${
-                      option.price ? `+EGP ${option.price}` : "Free"
+                     option.price ? `+EGP ${option.price}` : "Included"
                     }</small>
                   </button>
                 `;
@@ -358,6 +615,7 @@ document.querySelector("#customize-add-text").textContent =
 }
 
 function selectCustomOption(groupKey, optionIndex) {
+  document.querySelector("#customize-error").textContent = "";
   const group = customGroups.find((x) => x.key === groupKey);
 
   customChoices[groupKey] = group.options[optionIndex];
@@ -393,6 +651,27 @@ function changeCustomizeQuantity(amount) {
 }
 
 function addCustomizedDrink() {
+  const missingChoice = customGroups.find(
+  (group) =>
+    group.required &&
+    !customChoices[group.key]
+);
+
+const errorMessage = document.querySelector("#customize-error");
+
+errorMessage.textContent = "";
+
+if (missingChoice) {
+  errorMessage.textContent =
+    `Please select an option: ${missingChoice.title}.`;
+
+  errorMessage.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest",
+  });
+
+  return;
+}
   const customNote = document.querySelector("#customize-note").value.trim();
   const customizations = customGroups
     .flatMap((group) =>
@@ -401,7 +680,24 @@ function addCustomizedDrink() {
         : customChoices[group.key],
     )
     .filter(Boolean)
-    .map((option) => option.name);
+.filter((option) => option.name !== "No syrup")
+.map((option) => {
+  let label = option.name;
+
+  if (option === customChoices.flavor) {
+    label = `Flavor: ${option.name}`;
+  }
+
+  if (option === customChoices.syrupFlavor) {
+    label = `Syrup flavor: ${option.name}`;
+  }
+
+  if (option.price > 0) {
+    label += ` (+EGP ${option.price})`;
+  }
+
+  return label;
+});
 
   const extraPrice = Object.values(customChoices)
     .flat()
@@ -509,6 +805,11 @@ function closeNoteIfEmpty(id, value) {
   }
 }
 function drawCart() {
+  const cartError = document.querySelector("[data-cart-error]");
+
+if (cartError) {
+  cartError.textContent = "";
+}
   const count = cart.reduce((s, x) => s + x.qty, 0),
     total = cart.reduce((s, x) => s + x.qty * x.price, 0);
   $$("[data-count]").forEach((x) => (x.textContent = count));
@@ -555,12 +856,56 @@ function drawCart() {
     : '<p class="cart-empty">Your cart is waiting for a little Eskimo magic.</p>';
   $("[data-total]").textContent = "EGP " + total;
 }
+function isCafeOpen() {
+  const hour = Number(
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Africa/Cairo",
+      hour: "2-digit",
+      hourCycle: "h23",
+    }).format(new Date())
+  );
+
+  return hour >= 9 || hour < 2;
+}
 
 function checkout() {
   if (!cart.length) {
     showToast("Your cart is still empty.");
     return;
   }
+  const cartError = document.querySelector("[data-cart-error]");
+
+cartError.textContent = "";
+
+//---------------------------------------------------------
+// if (!isCafeOpen()) {
+//   cartError.textContent =
+//     "We’re currently closed. Orders are available daily from 9 AM to 2 AM .";
+
+//   cartError.scrollIntoView({
+//     behavior: "smooth",
+//     block: "nearest",
+//   });
+
+//   return;
+// }
+//---------------------------------------------------------
+
+const hasMainProduct = cart.some(
+  (item) => item.category !== "Extras"
+);
+
+if (!hasMainProduct) {
+  cartError.textContent =
+    "Please add at least one drink or dessert. Extras cannot be ordered on their own.";
+
+  cartError.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest",
+  });
+
+  return;
+}
 
   const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
 
@@ -775,6 +1120,20 @@ function formatCustomerAddress(address) {
   return cleanAddress;
 }
 async function submitOrder() {
+//---------------------------------------------------------
+
+
+//   if (!isCafeOpen()) {
+//   showCheckoutError(
+//     "We’re currently closed. Orders are available daily from 9 AM to 2 AM ."
+//   );
+
+//   return;
+// }
+
+
+//---------------------------------------------------------
+  
   clearCheckoutError();
 const nameInput = document.getElementById("customer-name").value;
 const phoneInput = document.getElementById("customer-phone").value;

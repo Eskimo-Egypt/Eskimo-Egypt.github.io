@@ -115,7 +115,12 @@
     </button>
   </div>
 </div>
-
+<p
+  id="customize-error"
+  class="customize-error"
+  role="alert"
+  aria-live="polite"
+></p>
     <button class="customize-add" onclick="addCustomizedDrink()">
       <span id="customize-add-text">Add to basket</span>
       <strong id="customize-total">EGP 0</strong>
@@ -142,6 +147,7 @@
   <strong>Payment:</strong> Cash is available on delivery, or you can pay via InstaPay by scanning the QR code above.
 </p>
           </div>
+          <p class="cart-error" data-cart-error role="alert"></p>
           <button class="checkout" onclick="checkout()">
             Place Order
           </button>
@@ -210,7 +216,12 @@
               .map(
                 (
                   p,
-                ) => `<article class="product" data-product="${p.id}"><div class="product-copy"><span class="tag">${p.category.toUpperCase()}</span><h3>${p.name}</h3><strong class="price">EGP ${p.price}</strong></div><div class="product-photo"><img src="assets/clean-${p.image}.webp" alt="${p.name}">
+                ) => `<article class="product" data-product="${p.id}"><div class="product-copy"><span class="tag">${p.category.toUpperCase()}</span><h3>${p.name}</h3>${getProductDescription(p)
+  ? `<p class="product-description" dir="auto">
+      ${getProductDescription(p)}
+    </p>`
+  : ""}
+  <strong class="price">EGP ${p.price}</strong></div><div class="product-photo"><img src="assets/clean-${p.image}.webp" alt="${p.name}">
 <div class="product-qty">
   <button class="first-add" onclick="changeProductQuantity('${p.id}',1)">+</button>
 
@@ -249,26 +260,65 @@ const badge = card.querySelector(".item-qty");
 badge.textContent = quantity;
           const counter = card.querySelector(".product-qty");
 
-          badge.textContent = item ? item.qty : "0";
-          counter.classList.toggle("active", !!item);
+         counter.classList.toggle("active", quantity > 0);
         });
       }
-      function observe() {
-        const links = [...document.querySelectorAll("[data-link]")];
-        const io = new IntersectionObserver(
-          (entries) =>
-            entries.forEach((e) => {
-              if (e.isIntersecting)
-                links.forEach((a) =>
-                  a.classList.toggle("active", a.dataset.link === e.target.id),
-                );
-            }),
-          { rootMargin: "-170px 0px -62% 0px" },
-        );
-        document
-          .querySelectorAll(".category-section")
-          .forEach((s) => io.observe(s));
-      }
+let categoryObserver;
+let visibleCategories = new Map();
+
+function observe() {
+  if (categoryObserver) {
+    categoryObserver.disconnect();
+  }
+
+  visibleCategories.clear();
+
+  const links = [...document.querySelectorAll("[data-link]")];
+
+  categoryObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          visibleCategories.set(entry.target.id, entry.target);
+        } else {
+          visibleCategories.delete(entry.target.id);
+        }
+      });
+
+      const currentSection = [...visibleCategories.values()]
+        .sort(
+          (a, b) =>
+            a.getBoundingClientRect().top -
+            b.getBoundingClientRect().top
+        )[0];
+
+      if (!currentSection) return;
+
+      links.forEach((link) => {
+        const isActive =
+          link.dataset.link === currentSection.id;
+
+        link.classList.toggle("active", isActive);
+
+        if (isActive) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    },
+    {
+      rootMargin: "-180px 0px -45% 0px",
+      threshold: 0,
+    }
+  );
+
+  document.querySelectorAll(".category-section").forEach((section) => {
+    if (section.style.display !== "none") {
+      categoryObserver.observe(section);
+    }
+  });
+}
       document.addEventListener("eskimo-cart-change", syncProductQuantities);
       makeSections();
     </script>
