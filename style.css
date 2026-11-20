@@ -1580,3 +1580,31 @@ a {
 .cart-error:empty {
   display: none;
 }
+@media (min-width: 841px) {
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body > main {
+    flex: 1 0 auto;
+    width: 100%;
+  }
+
+  body > .footer {
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+
+  .story-grid,
+  .visit-grid {
+    min-height: auto;
+  }
+
+  .home-hero,
+  .home-hero .hero-copy {
+    min-height: auto;
+  }
+}
